@@ -17,14 +17,23 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
 const order_entity_1 = require("./entities/order.entity");
-const order_item_entity_1 = require("./entities/order-item.entity");
+const items_service_1 = require("../items/items.service");
 let OrdersService = class OrdersService {
-    constructor(orderRepository, orderItemRepository) {
+    constructor(orderRepository, itemsService) {
         this.orderRepository = orderRepository;
-        this.orderItemRepository = orderItemRepository;
+        this.itemsService = itemsService;
     }
     async create(createOrderDto) {
         const order = this.orderRepository.create(createOrderDto);
+        order.orderItems = await Promise.all(createOrderDto.orderItems.map(async (item) => {
+            const itemData = await this.itemsService.findOne(item.itemId);
+            return {
+                ...item,
+                itemName: itemData.name,
+                price: itemData.price,
+            };
+        }));
+        order.totalPrice = order.orderItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
         return await this.orderRepository.save(order);
     }
     async findAll() {
@@ -46,8 +55,7 @@ exports.OrdersService = OrdersService;
 exports.OrdersService = OrdersService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_2.InjectRepository)(order_entity_1.Order)),
-    __param(1, (0, typeorm_2.InjectRepository)(order_item_entity_1.OrderItem)),
     __metadata("design:paramtypes", [typeorm_1.Repository,
-        typeorm_1.Repository])
+        items_service_1.ItemsService])
 ], OrdersService);
 //# sourceMappingURL=orders.service.js.map

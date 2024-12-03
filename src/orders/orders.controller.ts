@@ -19,8 +19,8 @@ export class OrdersController {
 
   @ApiOperation({ summary: 'Create a new order' })
   @Post()
-  create(@Body() createOrderDto: CreateOrderDto) {
-    return this.ordersService.create(createOrderDto);
+  async create(@Body() createOrderDto: CreateOrderDto) {
+    return await this.ordersService.create(createOrderDto);
   }
 
   @ApiOperation({ summary: 'Get all orders' })

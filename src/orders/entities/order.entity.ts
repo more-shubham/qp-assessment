@@ -21,6 +21,9 @@ export class Order {
   })
   orderItems: OrderItem[];
 
+  @Column()
+  totalPrice: number;
+
   @CreateDateColumn()
   createdAt: Date;
 

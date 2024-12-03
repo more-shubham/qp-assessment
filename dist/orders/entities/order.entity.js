@@ -30,6 +30,10 @@ __decorate([
     __metadata("design:type", Array)
 ], Order.prototype, "orderItems", void 0);
 __decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], Order.prototype, "totalPrice", void 0);
+__decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
 ], Order.prototype, "createdAt", void 0);

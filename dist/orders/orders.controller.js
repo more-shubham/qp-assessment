@@ -22,8 +22,8 @@ let OrdersController = class OrdersController {
     constructor(ordersService) {
         this.ordersService = ordersService;
     }
-    create(createOrderDto) {
-        return this.ordersService.create(createOrderDto);
+    async create(createOrderDto) {
+        return await this.ordersService.create(createOrderDto);
     }
     async findAll() {
         return await this.ordersService.findAll();
@@ -45,7 +45,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_order_dto_1.CreateOrderDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], OrdersController.prototype, "create", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Get all orders' }),

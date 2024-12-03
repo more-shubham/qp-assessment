@@ -20,6 +20,7 @@ exports.ItemsModule = ItemsModule = __decorate([
         imports: [typeorm_1.TypeOrmModule.forFeature([item_entity_1.Item])],
         controllers: [items_controller_1.ItemsController],
         providers: [items_service_1.ItemsService],
+        exports: [items_service_1.ItemsService],
     })
 ], ItemsModule);
 //# sourceMappingURL=items.module.js.map

@@ -15,6 +15,12 @@ export class OrderItem {
   @Min(1)
   quantity: number;
 
+  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
+  price: number;
+
+  @Column()
+  itemName: string;
+
   @ManyToOne(() => Order, (order) => order.orderItems, { onDelete: 'CASCADE' })
   order: Order;
 }

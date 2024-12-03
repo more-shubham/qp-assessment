@@ -4,19 +4,32 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Order } from './entities/order.entity';
-import { OrderItem } from './entities/order-item.entity';
+import { ItemsService } from 'src/items/items.service';
 
 @Injectable()
 export class OrdersService {
   constructor(
     @InjectRepository(Order)
     private orderRepository: Repository<Order>,
-    @InjectRepository(OrderItem)
-    private orderItemRepository: Repository<OrderItem>,
+    private itemsService: ItemsService,
   ) {}
 
   async create(createOrderDto: CreateOrderDto) {
     const order = this.orderRepository.create(createOrderDto);
+    order.orderItems = await Promise.all(
+      createOrderDto.orderItems.map(async (item) => {
+        const itemData = await this.itemsService.findOne(item.itemId);
+        return {
+          ...item,
+          itemName: itemData.name,
+          price: itemData.price,
+        };
+      }),
+    );
+    order.totalPrice = order.orderItems.reduce(
+      (acc, item) => acc + item.price * item.quantity,
+      0,
+    );
     return await this.orderRepository.save(order);
   }
 

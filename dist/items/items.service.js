@@ -28,7 +28,11 @@ let ItemsService = class ItemsService {
         return await this.itemRepository.find();
     }
     async findOne(id) {
-        return await this.itemRepository.findOneBy({ id });
+        const item = await this.itemRepository.findOneBy({ id });
+        if (!item) {
+            throw new common_1.NotFoundException('Item not found');
+        }
+        return item;
     }
     async update(id, updateItemDto) {
         return await this.itemRepository.update(id, updateItemDto);
