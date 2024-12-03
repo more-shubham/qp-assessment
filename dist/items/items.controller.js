@@ -18,6 +18,8 @@ const items_service_1 = require("./items.service");
 const create_item_dto_1 = require("./dto/create-item.dto");
 const update_item_dto_1 = require("./dto/update-item.dto");
 const swagger_1 = require("@nestjs/swagger");
+const user_entity_1 = require("../users/entities/user.entity");
+const roles_decorator_1 = require("../roles.decorator");
 let ItemsController = class ItemsController {
     constructor(itemsService) {
         this.itemsService = itemsService;
@@ -45,6 +47,7 @@ let ItemsController = class ItemsController {
 exports.ItemsController = ItemsController;
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Create a new item' }),
+    (0, roles_decorator_1.Roles)(user_entity_1.UserRole.ADMIN),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -53,6 +56,7 @@ __decorate([
 ], ItemsController.prototype, "create", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Get all items' }),
+    (0, roles_decorator_1.Roles)(user_entity_1.UserRole.ADMIN, user_entity_1.UserRole.USER),
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
@@ -60,6 +64,7 @@ __decorate([
 ], ItemsController.prototype, "findAll", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Get an item by id' }),
+    (0, roles_decorator_1.Roles)(user_entity_1.UserRole.ADMIN, user_entity_1.UserRole.USER),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -68,6 +73,7 @@ __decorate([
 ], ItemsController.prototype, "findOne", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Update an item' }),
+    (0, roles_decorator_1.Roles)(user_entity_1.UserRole.ADMIN),
     (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
@@ -77,6 +83,7 @@ __decorate([
 ], ItemsController.prototype, "update", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Delete an item' }),
+    (0, roles_decorator_1.Roles)(user_entity_1.UserRole.ADMIN),
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),

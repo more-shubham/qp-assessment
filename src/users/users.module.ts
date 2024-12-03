@@ -1,10 +1,14 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { JwtModule } from '@nestjs/jwt';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from './entities/user.entity';
 
+@Global()
 @Module({
   imports: [
+    TypeOrmModule.forFeature([User]),
     JwtModule.register({
       global: true,
       // @command: node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
@@ -15,5 +19,6 @@ import { JwtModule } from '@nestjs/jwt';
   ],
   controllers: [UsersController],
   providers: [UsersService],
+  exports: [UsersService],
 })
 export class UsersModule {}

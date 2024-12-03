@@ -17,6 +17,7 @@ const order_item_entity_1 = require("./orders/entities/order-item.entity");
 const users_module_1 = require("./users/users.module");
 const core_1 = require("@nestjs/core");
 const auth_guard_1 = require("./users/auth.guard");
+const roles_guard_1 = require("./users/roles.guard");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -45,6 +46,10 @@ exports.AppModule = AppModule = __decorate([
             {
                 provide: core_1.APP_GUARD,
                 useClass: auth_guard_1.AuthGuard,
+            },
+            {
+                provide: core_1.APP_GUARD,
+                useClass: roles_guard_1.RolesGuard,
             },
         ],
     })

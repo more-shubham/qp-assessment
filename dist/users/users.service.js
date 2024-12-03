@@ -8,15 +8,40 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("typeorm");
+const user_entity_1 = require("./entities/user.entity");
 const jwt_1 = require("@nestjs/jwt");
+const typeorm_2 = require("@nestjs/typeorm");
+const users = [
+    {
+        email: 'admin@example.com',
+        password: 'teamwork',
+        role: user_entity_1.UserRole.ADMIN,
+    },
+    {
+        email: 'user@example.com',
+        password: 'teamwork',
+        role: user_entity_1.UserRole.ADMIN,
+    },
+];
 let UsersService = class UsersService {
     constructor(userRepository, jwtService) {
         this.userRepository = userRepository;
         this.jwtService = jwtService;
+        users.forEach((user) => {
+            const existingUser = this.userRepository.findOne({
+                where: { email: user.email },
+            });
+            if (!existingUser) {
+                this.userRepository.insert(user);
+            }
+        });
     }
     async login(body) {
         const user = await this.userRepository.findOne({
@@ -38,6 +63,7 @@ let UsersService = class UsersService {
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([
     (0, common_1.Injectable)(),
+    __param(0, (0, typeorm_2.InjectRepository)(user_entity_1.User)),
     __metadata("design:paramtypes", [typeorm_1.Repository,
         jwt_1.JwtService])
 ], UsersService);

@@ -47,12 +47,6 @@ let OrdersService = class OrdersService {
     async findOne(id) {
         return await this.orderRepository.findOneBy({ id });
     }
-    async update(id, updateOrderDto) {
-        return await this.orderRepository.update(id, updateOrderDto);
-    }
-    async remove(id) {
-        return await this.orderRepository.delete(id);
-    }
 };
 exports.OrdersService = OrdersService;
 exports.OrdersService = OrdersService = __decorate([

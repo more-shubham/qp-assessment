@@ -4,15 +4,39 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { User } from './entities/user.entity';
+import { User, UserRole } from './entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
+import { InjectRepository } from '@nestjs/typeorm';
+
+const users = [
+  {
+    email: 'admin@example.com',
+    password: 'teamwork',
+    role: UserRole.ADMIN,
+  },
+  {
+    email: 'user@example.com',
+    password: 'teamwork',
+    role: UserRole.ADMIN,
+  },
+];
 
 @Injectable()
 export class UsersService {
   constructor(
+    @InjectRepository(User)
     private userRepository: Repository<User>,
     private jwtService: JwtService,
-  ) {}
+  ) {
+    users.forEach((user) => {
+      const existingUser = this.userRepository.findOne({
+        where: { email: user.email },
+      });
+      if (!existingUser) {
+        this.userRepository.insert(user);
+      }
+    });
+  }
 
   async login(body: { email: string; password: string }) {
     const user = await this.userRepository.findOne({

@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
 const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
-const auth_guard_1 = require("./auth.guard");
+const public_decorator_1 = require("../public.decorator");
 let UsersController = class UsersController {
     constructor(usersService) {
         this.usersService = usersService;
@@ -29,6 +29,7 @@ let UsersController = class UsersController {
 };
 exports.UsersController = UsersController;
 __decorate([
+    (0, public_decorator_1.Public)(),
     (0, common_1.Post)('login'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -36,7 +37,6 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "login", null);
 __decorate([
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Get)('profile'),
     __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),

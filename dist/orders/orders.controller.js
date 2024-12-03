@@ -16,8 +16,9 @@ exports.OrdersController = void 0;
 const common_1 = require("@nestjs/common");
 const orders_service_1 = require("./orders.service");
 const create_order_dto_1 = require("./dto/create-order.dto");
-const update_order_dto_1 = require("./dto/update-order.dto");
 const swagger_1 = require("@nestjs/swagger");
+const user_entity_1 = require("../users/entities/user.entity");
+const roles_decorator_1 = require("../roles.decorator");
 let OrdersController = class OrdersController {
     constructor(ordersService) {
         this.ordersService = ordersService;
@@ -31,15 +32,10 @@ let OrdersController = class OrdersController {
     async findOne(id) {
         return await this.ordersService.findOne(+id);
     }
-    async update(id, updateOrderDto) {
-        return await this.ordersService.update(+id, updateOrderDto);
-    }
-    async remove(id) {
-        return await this.ordersService.remove(+id);
-    }
 };
 exports.OrdersController = OrdersController;
 __decorate([
+    (0, roles_decorator_1.Roles)(user_entity_1.UserRole.ADMIN, user_entity_1.UserRole.USER),
     (0, swagger_1.ApiOperation)({ summary: 'Create a new order' }),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
@@ -48,6 +44,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], OrdersController.prototype, "create", null);
 __decorate([
+    (0, roles_decorator_1.Roles)(user_entity_1.UserRole.ADMIN),
     (0, swagger_1.ApiOperation)({ summary: 'Get all orders' }),
     (0, common_1.Get)(),
     __metadata("design:type", Function),
@@ -55,6 +52,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], OrdersController.prototype, "findAll", null);
 __decorate([
+    (0, roles_decorator_1.Roles)(user_entity_1.UserRole.ADMIN),
     (0, swagger_1.ApiOperation)({ summary: 'Get an order by id' }),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
@@ -62,23 +60,6 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], OrdersController.prototype, "findOne", null);
-__decorate([
-    (0, swagger_1.ApiOperation)({ summary: 'Update an order' }),
-    (0, common_1.Patch)(':id'),
-    __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_order_dto_1.UpdateOrderDto]),
-    __metadata("design:returntype", Promise)
-], OrdersController.prototype, "update", null);
-__decorate([
-    (0, swagger_1.ApiOperation)({ summary: 'Delete an order' }),
-    (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Param)('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], OrdersController.prototype, "remove", null);
 exports.OrdersController = OrdersController = __decorate([
     (0, swagger_1.ApiTags)('Orders'),
     (0, common_1.Controller)('orders'),
