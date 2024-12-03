@@ -19,6 +19,10 @@ export class OrdersService {
     order.orderItems = await Promise.all(
       createOrderDto.orderItems.map(async (item) => {
         const itemData = await this.itemsService.findOne(item.itemId);
+        await this.itemsService.update(item.itemId, {
+          quantity:
+            Number(itemData.quantity ?? '0') - Number(item.quantity ?? '0'),
+        });
         return {
           ...item,
           itemName: itemData.name,
