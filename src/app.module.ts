@@ -5,6 +5,10 @@ import { Item } from './items/entities/item.entity';
 import { OrdersModule } from './orders/orders.module';
 import { Order } from './orders/entities/order.entity';
 import { OrderItem } from './orders/entities/order-item.entity';
+import { UsersModule } from './users/users.module';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './users/auth.guard';
+import { RolesGuard } from './users/roles.guard';
 
 @Module({
   imports: [
@@ -23,8 +27,18 @@ import { OrderItem } from './orders/entities/order-item.entity';
     }),
     ItemsModule,
     OrdersModule,
+    UsersModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+  ],
 })
 export class AppModule {}

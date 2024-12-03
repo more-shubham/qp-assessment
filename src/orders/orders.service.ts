@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Order } from './entities/order.entity';
@@ -45,13 +44,5 @@ export class OrdersService {
 
   async findOne(id: number) {
     return await this.orderRepository.findOneBy({ id });
-  }
-
-  async update(id: number, updateOrderDto: UpdateOrderDto) {
-    return await this.orderRepository.update(id, updateOrderDto);
-  }
-
-  async remove(id: number) {
-    return await this.orderRepository.delete(id);
   }
 }

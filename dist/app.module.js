@@ -14,6 +14,9 @@ const item_entity_1 = require("./items/entities/item.entity");
 const orders_module_1 = require("./orders/orders.module");
 const order_entity_1 = require("./orders/entities/order.entity");
 const order_item_entity_1 = require("./orders/entities/order-item.entity");
+const users_module_1 = require("./users/users.module");
+const core_1 = require("@nestjs/core");
+const auth_guard_1 = require("./users/auth.guard");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -35,9 +38,15 @@ exports.AppModule = AppModule = __decorate([
             }),
             items_module_1.ItemsModule,
             orders_module_1.OrdersModule,
+            users_module_1.UsersModule,
         ],
         controllers: [],
-        providers: [],
+        providers: [
+            {
+                provide: core_1.APP_GUARD,
+                useClass: auth_guard_1.AuthGuard,
+            },
+        ],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map
