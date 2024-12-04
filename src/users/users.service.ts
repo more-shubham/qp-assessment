@@ -33,15 +33,13 @@ export class UsersService {
         where: { email: user.email },
       });
       if (!existingUser) {
-        this.userRepository.insert(user);
+        this.userRepository.save(user);
       }
     });
   }
 
-  async login(body: { email: string; password: string }) {
-    const user = await this.userRepository.findOne({
-      where: { email: body.email },
-    });
+  async login(body: { username: string; password: string }) {
+    const user = await this.userRepository.findOneBy({ email: body.username });
     if (!user) {
       throw new NotFoundException('User not found');
     }

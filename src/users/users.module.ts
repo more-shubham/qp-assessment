@@ -13,7 +13,7 @@ import { User } from './entities/user.entity';
       global: true,
       secret:
         '254a9852c75e665189f5fc25a0cc92159cd69d92e22a608f0f94a62854d49593',
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: '1d' },
     }),
   ],
   controllers: [UsersController],

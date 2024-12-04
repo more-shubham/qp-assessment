@@ -10,6 +10,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './users/auth.guard';
 import { RolesGuard } from './users/roles.guard';
 import { ConfigModule } from '@nestjs/config';
+import { CreateUsers1712215734000 } from './migrations/users.migration';
 
 @Module({
   imports: [
@@ -23,6 +24,9 @@ import { ConfigModule } from '@nestjs/config';
         password: process.env.DB_PASSWORD,
         database: process.env.DB_DATABASE,
         entities: [Item, Order, OrderItem],
+        migrations: [CreateUsers1712215734000],
+        migrationsRun: true,
+        migrationsTransactionMode: 'all',
         // @note production mode should be false
         synchronize: true,
         autoLoadEntities: true,

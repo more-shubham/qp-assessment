@@ -8,7 +8,7 @@ export class UsersController {
 
   @Public()
   @Post('login')
-  async login(@Body() body: { email: string; password: string }) {
+  async login(@Body() body: { username: string; password: string }) {
     return await this.usersService.login(body);
   }
 
