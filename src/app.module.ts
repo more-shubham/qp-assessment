@@ -9,21 +9,24 @@ import { UsersModule } from './users/users.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './users/auth.guard';
 import { RolesGuard } from './users/roles.guard';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'root',
-      database: 'test',
-      entities: [Item, Order, OrderItem],
-      synchronize: true,
-      autoLoadEntities: true,
-      logger: 'simple-console',
-      logging: true,
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRootAsync({
+      useFactory: () => ({
+        type: 'mysql',
+        host: process.env.DB_HOST,
+        port: parseInt(process.env.DB_PORT),
+        username: process.env.DB_USERNAME,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_DATABASE,
+        entities: [Item, Order, OrderItem],
+        // @note production mode should be false
+        synchronize: true,
+        autoLoadEntities: true,
+      }),
     }),
     ItemsModule,
     OrdersModule,
